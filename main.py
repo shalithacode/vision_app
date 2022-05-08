@@ -10,8 +10,8 @@ def index():
 @app.route("/result", methods=["GET", "POST"])
 def speech():
     transcript = ""
-    import os
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "shalithatestproject-4399094c0dde.json"
+    # import os
+    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "shalithatestproject-4399094c0dde.json"
 
     # Imports the Google Cloud client library
     from google.cloud import vision
@@ -33,7 +33,7 @@ def speech():
     allDescreiptios = []
     
     for label in labels:
-        allDescreiptios.append({label.description:str(round(label.score,2))})
+        allDescreiptios.append({label.description:str(round(label.score * 100 ,2))})
 
     print(len( allDescreiptios))
     return render_template("index.html", transcript=allDescreiptios)
