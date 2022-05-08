@@ -35,7 +35,6 @@ def speech():
     for label in labels:
         allDescreiptios.append({label.description:str(round(label.score * 100 ,2))})
 
-    print(len( allDescreiptios))
     return render_template("index.html", transcript=allDescreiptios)
 
 
