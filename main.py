@@ -9,33 +9,64 @@ def index():
 
 @app.route("/result", methods=["GET", "POST"])
 def speech():
-    transcript = ""
+    
     # import os
-    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "shalithatestproject-009cd83851af.json"
+    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "shalitha98-9b0e0cb27e46.json"
 
-    # Imports the Google Cloud client library
+    
     from google.cloud import vision
+    from google.cloud import storage
 
-    # Instantiates a client
+    bucket_name = "cats__and__dogs"
+    storage_client = storage.Client()
+    blobs = storage_client.list_blobs(bucket_name)
+
     client = vision.ImageAnnotatorClient()
 
-    # Performs label detection on the image file
-    response = client.label_detection(
-        {
-            "source": {
-                "image_uri": "gs://shalitha98.appspot.com/sample/human.jpeg"
-            },
-        }
-    )
-    labels = response.label_annotations
+    cat_list=[]
+    dog_list=[]
 
-    # print("Labels:")
-    allDescreiptios = []
+    for blob in blobs:
+        
+        path=f'gs://cats__and__dogs/{blob.name}'
+         
+        response = client.object_localization(
+            {
+                "source": {
+                    "image_uri": path
+                },
+            }
+        )
+
+        objects = response.localized_object_annotations
+
+        cat_score = 0
+        dog_score = 0
+
+        for object in objects:
+            
+            if str(object.name).lower() =='cat':
+                cat_score = object.score
+                
+            if str(object.name).lower() =='dog':
+                dog_score = object.score
+
+        
+        if cat_score > dog_score:
+            cat_list.append(blob.name.split('.')[0])
+            
+
+        if cat_score < dog_score:
+            dog_list.append(blob.name.split('.')[0])
+            
+    print(cat_list,dog_list)
+
+    cats =  ", ". join(cat_list)
+    dogs =  ", ". join(dog_list)
+
+    return render_template("index.html", cats=cats,dogs=dogs)
     
-    for label in labels:
-        allDescreiptios.append({label.description:str(round(label.score * 100 ,2))})
 
-    return render_template("index.html", transcript=allDescreiptios)
 
 
 if __name__ == "__main__":

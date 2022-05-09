@@ -9,13 +9,15 @@
   <body>
     <div class="card">
       <form action="/result" method="post">
-        <input class="btn" type="submit" value="All Labals" />
+        <input class="btn" type="submit" value="Cats & Dogs" />
       </form>
       <!-- <h1>{{transcript}}</h1> -->
       <ul>
-        {% for i in transcript %} {% for k,v in i.items() %}
+        <!-- {% for i in transcript %} {% for k,v in i.items() %}
         <li>{{k}} : {{v}}%</li>
-        {% endfor %} {% endfor %}
+        {% endfor %} {% endfor %} -->
+        <li>Cats: {{cats}}</li>
+        <li>Dogs: {{dogs}}</li>
       </ul>
     </div>
   </body>
