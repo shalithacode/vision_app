@@ -11,7 +11,7 @@ def index():
 def speech():
     transcript = ""
     # import os
-    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "shalithatestproject-4399094c0dde.json"
+    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "shalithatestproject-009cd83851af.json"
 
     # Imports the Google Cloud client library
     from google.cloud import vision
@@ -23,7 +23,7 @@ def speech():
     response = client.label_detection(
         {
             "source": {
-                "image_uri": "gs://shalithatestproject.appspot.com/sample/human.jpeg"
+                "image_uri": "gs://shalitha98.appspot.com/sample/human.jpeg"
             },
         }
     )
@@ -35,7 +35,6 @@ def speech():
     for label in labels:
         allDescreiptios.append({label.description:str(round(label.score * 100 ,2))})
 
-    print(len( allDescreiptios))
     return render_template("index.html", transcript=allDescreiptios)
 
 
