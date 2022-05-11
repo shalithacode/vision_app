@@ -52,19 +52,19 @@ def speech():
                 dog_score = object.score
 
         
-        if cat_score > dog_score:
-            cat_list.append(blob.name.split('.')[0])
-            
 
-        if cat_score < dog_score:
-            dog_list.append(blob.name.split('.')[0])
+        if cat_score > 0.90 and dog_score > 0.90:
+            cat_list.append(f'https://storage.googleapis.com/cats__and__dogs/{blob.name}')
+            dog_list.append(f'https://storage.googleapis.com/cats__and__dogs/{blob.name}')
+        elif cat_score > dog_score:
+            cat_list.append(f'https://storage.googleapis.com/cats__and__dogs/{blob.name}')
+        elif cat_score < dog_score:
+            dog_list.append(f'https://storage.googleapis.com/cats__and__dogs/{blob.name}')
             
     print(cat_list,dog_list)
 
-    cats =  ", ". join(cat_list)
-    dogs =  ", ". join(dog_list)
 
-    return render_template("index.html", cats=cats,dogs=dogs)
+    return render_template("index.html", cats=cat_list,dogs=dog_list)
     
 
 
